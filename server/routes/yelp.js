@@ -23,7 +23,7 @@ router.get('/:yelpId', function (req, res, next) {
             return res.json({
                 yelpId: club.id,
                 name: club.name,
-                img_url: club.img_url,
+                image_url: club.image_url,
                 url: club.url,
                 rating: club.rating,
                 address: club.location.address1 + ', ' + club.location.city
