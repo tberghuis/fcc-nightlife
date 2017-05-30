@@ -16,9 +16,18 @@ router.get('/:yelpId', function (req, res, next) {
         client.business(req.params.yelpId).then(response => {
 
 
-            console.log(response.jsonBody.name);
+            // console.log(response.jsonBody.name);
 
-            return res.json(response.jsonBody);
+            let club = response.jsonBody;
+
+            return res.json({
+                yelpId: club.id,
+                name: club.name,
+                img_url: club.img_url,
+                url: club.url,
+                rating: club.rating,
+                address: club.location.address1 + ', ' + club.location.city
+            });
         }).catch(errorHandler(res));
 
     }).catch(errorHandler(res));

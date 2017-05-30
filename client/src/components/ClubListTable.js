@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 // import { Menu } from 'semantic-ui-react';
 import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import '../scss/club-list.css';
 
@@ -21,7 +22,11 @@ class ClubListTable extends React.Component {
 
 
     handleClickClub = (yelpId) => () => {
-        console.log(yelpId);
+        // console.log(yelpId);
+
+        // push.
+        browserHistory.push('/club/' + yelpId);
+
     }
 
 
@@ -44,7 +49,7 @@ class ClubListTable extends React.Component {
 
         return (
             <Container className="club-list">
-                <Table unstackable singleLine selectable style={{marginTop:'20px'}}>
+                <Table unstackable singleLine selectable style={{ marginTop: '20px' }}>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell width={2}>No Reservations</Table.HeaderCell>
