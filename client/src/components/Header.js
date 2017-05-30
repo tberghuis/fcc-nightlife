@@ -14,6 +14,12 @@ class Header extends React.Component {
         let loggedIn = false;
         return (
             <Menu>
+                <Menu.Item as={Link} to="/">
+
+                    <img
+                        style={{ height: '21px', width: 'auto' }}
+                        src="/favicon/favicon-32x32.png" alt="" />
+                </Menu.Item>
                 <Menu.Item as="a" target="_blank" href="https://github.com/tberghuis/fcc-nightlife">
                     <i className="ion-social-github"></i>
                 </Menu.Item>

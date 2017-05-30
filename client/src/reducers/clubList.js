@@ -1,7 +1,6 @@
 import {
     YELP_SEARCH,
-    ASYNC_START,
-    ASYNC_END
+    ASYNC_START
 } from '../constants/actionTypes';
 
 
@@ -15,7 +14,7 @@ const defaultState = {
 };
 
 export default (state = defaultState, action) => {
-    // let state = [...defaultState];
+    
     switch (action.type) {
         case ASYNC_START:
 
@@ -24,17 +23,10 @@ export default (state = defaultState, action) => {
                 loading: action.subtype === YELP_SEARCH ? true : state.loading,
                 error: false
             };
-        // case ASYNC_END:
-        //     console.log('end',action);
-        //     return {
-        //         ...state,
-        //         loading: action.subtype === YELP_SEARCH ? false : state.loading
-        //     };
+
 
         case YELP_SEARCH:
-            console.log(action);
-            // return state;
-            // return action.payload;
+            // console.log(action);
 
             if (action.error) {
 

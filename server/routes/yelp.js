@@ -1,6 +1,33 @@
 const yelp = require('yelp-fusion');
 const router = require('express').Router({ mergeParams: true });
 
+// get /yelp/:yelpId
+router.get('/:yelpId', function (req, res, next) {
+
+    console.log(req.params.yelpId);
+
+
+    // must be better way to cache/reuse the token, meh
+    // repeating myself for the moment
+
+    yelp.accessToken(process.env.YELPFUSION_CLIENTID, process.env.YELPFUSION_CLIENTSECRET).then(response => {
+        const client = yelp.client(response.jsonBody.access_token);
+
+        client.business(req.params.yelpId).then(response => {
+
+
+            console.log(response.jsonBody.name);
+
+            return res.json(response.jsonBody);
+        }).catch(errorHandler(res));
+
+    }).catch(errorHandler(res));
+
+
+
+    // res.json({ hello: "hello" });
+});
+
 
 
 
