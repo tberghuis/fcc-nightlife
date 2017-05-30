@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 // import { Menu } from 'semantic-ui-react';
-import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
+import { Container, Table, Dimmer, Segment, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import agent from '../agent';
@@ -13,6 +13,7 @@ import {
 
 // map state dispatch
 const mapStateToProps = state => ({
+    data: state.singleClub.data
 
 });
 
@@ -43,8 +44,18 @@ class SingleClub extends React.Component {
 
         console.log(this.props.params.yelpId);
 
+        if (!this.props.data) {
+            return (
+                
+                    <Loader active/>
+                
+            );
+        }
+
         return (
-            <div>single club</div>
+            <div>single club
+                {this.props.data.name}
+            </div>
         );
     }
 }

@@ -36,9 +36,7 @@ class ClubListTable extends React.Component {
         if (this.props.loading) {
             // return <div>loading...</div>;
             return (
-                <Dimmer active>
-                    <Loader />
-                </Dimmer>
+                    <Loader active/>
             );
         }
 
