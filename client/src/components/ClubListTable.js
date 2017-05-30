@@ -4,6 +4,8 @@ import { Link } from 'react-router';
 import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+import '../scss/club-list.css';
+
 // map state dispatch
 const mapStateToProps = state => ({
     data: state.clubList.data,
@@ -42,13 +44,13 @@ class ClubListTable extends React.Component {
 
 
         return (
-            <Container>
-                <Table singleLine selectable style={{marginTop:'20px'}}>
+            <Container className="club-list">
+                <Table unstackable singleLine selectable style={{marginTop:'20px'}}>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell>No Reservations</Table.HeaderCell>
-                            <Table.HeaderCell>Club Name</Table.HeaderCell>
-                            <Table.HeaderCell>Address</Table.HeaderCell>
+                            <Table.HeaderCell width={2}>No Reservations</Table.HeaderCell>
+                            <Table.HeaderCell width={7}>Club Name</Table.HeaderCell>
+                            <Table.HeaderCell width={7}>Address</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
 

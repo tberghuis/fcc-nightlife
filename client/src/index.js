@@ -8,7 +8,7 @@ import App from './App';
 import Main from './components/Main';
 import registerServiceWorker from './registerServiceWorker';
 import store from './store';
-import './index.css';
+import './scss/index.css';
 
 // in console run _state()
 window._state = store.getState;

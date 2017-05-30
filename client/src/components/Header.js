@@ -14,6 +14,9 @@ class Header extends React.Component {
         let loggedIn = false;
         return (
             <Menu>
+                <Menu.Item as="a" target="_blank" href="https://github.com/tberghuis/fcc-nightlife">
+                    <i className="ion-social-github"></i>
+                </Menu.Item>
 
                 <Menu.Menu position='right'>
                     {!loggedIn &&
