@@ -21,7 +21,8 @@ export default (state = defaultState, action) => {
 
             return {
                 ...state,
-                loading: action.subtype === YELP_SEARCH ? true : state.loading
+                loading: action.subtype === YELP_SEARCH ? true : state.loading,
+                error: false
             };
         // case ASYNC_END:
         //     console.log('end',action);
@@ -31,13 +32,25 @@ export default (state = defaultState, action) => {
         //     };
 
         case YELP_SEARCH:
-            // console.log(action);
+            console.log(action);
             // return state;
             // return action.payload;
+
+            if (action.error) {
+
+                return {
+                    ...state,
+                    data: [],
+                    loading: false,
+                    error: true 
+                };
+            }
+
             return {
                 ...state,
                 data: action.payload,
-                loading: false
+                loading: false,
+                error: false
             };
 
         default:

@@ -42,7 +42,6 @@ class ClubListTable extends React.Component {
 
         }
 
-
         return (
             <Container className="club-list">
                 <Table unstackable singleLine selectable style={{marginTop:'20px'}}>

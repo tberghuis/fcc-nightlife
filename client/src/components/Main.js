@@ -29,6 +29,7 @@ const Button01 = styled(Button) `
 `;
 
 const mapStateToProps = state => ({
+    searchError: state.clubList.error
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -67,6 +68,9 @@ class Main extends React.Component {
                         <Button01 type='submit'>Search</Button01>
                     </Form>
                 </DivCentered>
+                {this.props.searchError &&
+                    <div style={{textAlign: 'center'}}>Error: check input and try searching again.</div>
+                }
                 <ClubListTable></ClubListTable>
             </div>
         );
