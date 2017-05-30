@@ -1,0 +1,96 @@
+import React from 'react';
+import agent from '../agent';
+import { connect } from 'react-redux';
+import { Form, Container } from 'semantic-ui-react';
+
+// import { observer } from 'mobx-react';
+// import { observable } from 'mobx';
+
+
+
+// TODO figure out why react warning for textfield type email and password
+// should just rewrite to use refs
+
+import {
+    //   UPDATE_FIELD_AUTH,
+    REGISTER
+    //   REGISTER_PAGE_UNLOADED
+} from '../constants/actionTypes';
+
+const mapStateToProps = state => ({ ...state.auth });
+
+const mapDispatchToProps = dispatch => ({
+
+    //   onSubmit: (username, email, password) => {
+    //     const payload = agent.Auth.register(username, email, password);
+    //     dispatch({ type: REGISTER, payload })
+    //   }
+
+});
+
+class Register extends React.Component {
+    //   constructor() {
+    //     super();
+    //     this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
+    //     this.changePassword = ev => this.props.onChangePassword(ev.target.value);
+    //     this.changeUsername = ev => this.props.onChangeUsername(ev.target.value);
+    //     this.submitForm = (username, email, password) => ev => {
+    //       ev.preventDefault();
+    //       if(!this.isValidForm()){
+    //         return;
+    //       }
+    //       this.props.onSubmit(username, email, password);
+    //     }
+    //   }
+
+
+    // isValidForm = () => {
+    //     if (this.props.username.trim() === ''
+    //         || this.props.email.trim() === ''
+    //         || this.props.password.trim() === ''
+    //     ) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
+    render() {
+
+        return (
+            <div>hello
+
+                <input type="text"
+                ref="username"
+                />
+            </div>
+        );
+
+        /*const email = this.props.email;
+        const password = this.props.password;
+        const username = this.props.username;
+
+        return (
+            <Container text>
+                <h1>Register</h1>
+                <Form onSubmit={this.submitForm(username, email, password)}>
+                    <Form.Input label='Username' placeholder='Username'
+                        value={this.props.username}
+                        onChange={this.changeUsername} />
+                    <Form.Input label='Email' placeholder='Email'
+                        value={this.props.email}
+                        onChange={this.changeEmail}
+                        type="email" />
+                    <Form.Input label='Password' placeholder='Password'
+                        type="password"
+                        value={this.props.password}
+                        onChange={this.changePassword} />
+                    <Form.Button
+                        disabled={!this.isValidForm()}
+                    >Submit</Form.Button>
+                </Form>
+            </Container>
+        );*/
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
