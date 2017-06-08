@@ -1,15 +1,12 @@
 import React from 'react';
 import agent from '../agent';
 import { connect } from 'react-redux';
-import { Form, Container } from 'semantic-ui-react';
+import { Container, Input, Button, Form } from 'semantic-ui-react';
 
-// import { observer } from 'mobx-react';
-// import { observable } from 'mobx';
+import { observer } from 'mobx-react';
+import { extendObservable } from 'mobx';
 
-
-
-// TODO figure out why react warning for textfield type email and password
-// should just rewrite to use refs
+import '../scss/register-page.css'
 
 import {
     //   UPDATE_FIELD_AUTH,
@@ -17,18 +14,41 @@ import {
     //   REGISTER_PAGE_UNLOADED
 } from '../constants/actionTypes';
 
-const mapStateToProps = state => ({ ...state.auth });
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-
-    //   onSubmit: (username, email, password) => {
-    //     const payload = agent.Auth.register(username, email, password);
-    //     dispatch({ type: REGISTER, payload })
-    //   }
-
+    dispatch: (action) => {
+        dispatch(action);
+    }
 });
 
 class Register extends React.Component {
+
+    constructor() {
+        super();
+        extendObservable(this, {
+            username: '',
+            email: '',
+            password1: '',
+            password2: '',
+            showValidationErrors: false
+        });
+    }
+
+
+    // actions should be created in seperate files...
+    // keep going for now
+    // goal get it finished
+    submitForm = (ev) => {
+        ev.preventDefault();
+
+        console.log(this.username);
+
+        // const payload = agent.requests.post('/')
+    }
+
+
+
     //   constructor() {
     //     super();
     //     this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
@@ -44,31 +64,59 @@ class Register extends React.Component {
     //   }
 
 
-    // isValidForm = () => {
-    //     if (this.props.username.trim() === ''
-    //         || this.props.email.trim() === ''
-    //         || this.props.password.trim() === ''
-    //     ) {
-    //         return false;
-    //     }
-    //     return true;
-    // }
+    isValidForm = () => {
+        if (this.username.trim() === ''
+            || this.email.trim() === ''
+            || this.password1.trim() === ''
+            || this.password2.trim() === ''
+        ) {
+            return false;
+        }
+        return true;
+    }
 
     render() {
 
         return (
-            <div>hello
+            <Container text className="register-page">
+                <Form onSubmit={this.submitForm} size="large">
 
-                <input type="text"
-                ref="username"
-                />
-            </div>
+                    <Form.Field>
+                        <Input
+                            value={this.username}
+                            onChange={e => this.username = e.target.value}
+                            fluid icon='user' iconPosition='left' placeholder='Username' />
+                    </Form.Field>
+                    <Form.Field>
+                        <Input
+                            value={this.email}
+                            onChange={e => this.email = e.target.value}
+                            fluid icon='mail' iconPosition='left' placeholder='E-mail address' />
+                    </Form.Field>
+                    <Form.Field>
+                        <Input
+                            value={this.password1}
+                            onChange={e => this.password1 = e.target.value}
+                            fluid icon='lock' iconPosition='left' placeholder='Password' type="password" />
+                    </Form.Field>
+                    <Form.Field>
+                        <Input
+                            value={this.password2}
+                            onChange={e => this.password2 = e.target.value}
+                            fluid icon='lock' iconPosition='left' placeholder='Re-enter Password' type="password" />
+                    </Form.Field>
+                    <Button
+                        disabled={!this.isValidForm()}
+                        fluid color="teal" size="large">Register</Button>
+
+                </Form>
+            </Container>
         );
 
         /*const email = this.props.email;
         const password = this.props.password;
         const username = this.props.username;
-
+    
         return (
             <Container text>
                 <h1>Register</h1>
@@ -93,4 +141,4 @@ class Register extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(observer(Register));
