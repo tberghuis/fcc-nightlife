@@ -5,13 +5,12 @@ import { Container, Input, Button, Form } from 'semantic-ui-react';
 
 import { observer } from 'mobx-react';
 import { extendObservable } from 'mobx';
+import isEmail from 'validator/lib/isEmail';
 
 import '../scss/register-page.css'
 
 import {
-    //   UPDATE_FIELD_AUTH,
     REGISTER
-    //   REGISTER_PAGE_UNLOADED
 } from '../constants/actionTypes';
 
 const mapStateToProps = state => ({});
@@ -31,8 +30,13 @@ class Register extends React.Component {
             email: '',
             password1: '',
             password2: '',
-            showValidationErrors: false
+            showValidationErrors: false,
+            passwordsNotMatch: false,
+            invalidEmail: false
         });
+
+        //debugging
+        // window._reg = this;
     }
 
 
@@ -42,26 +46,32 @@ class Register extends React.Component {
     submitForm = (ev) => {
         ev.preventDefault();
 
-        console.log(this.username);
+        // reset error state
+        this.showValidationErrors = false;
+        this.passwordsNotMatch = false;
+        this.invalidEmail = false;
+
+        if (this.password1 !== this.password2) {
+            this.passwordsNotMatch = true;
+            this.showValidationErrors = true;
+        }
+
+        // test email
+        if (!isEmail(this.email)) {
+            this.invalidEmail = true;
+            this.showValidationErrors = true;
+        }
+
+        if (this.showValidationErrors) {
+            return;
+        }
+
+        // post /register
 
         // const payload = agent.requests.post('/')
     }
 
 
-
-    //   constructor() {
-    //     super();
-    //     this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
-    //     this.changePassword = ev => this.props.onChangePassword(ev.target.value);
-    //     this.changeUsername = ev => this.props.onChangeUsername(ev.target.value);
-    //     this.submitForm = (username, email, password) => ev => {
-    //       ev.preventDefault();
-    //       if(!this.isValidForm()){
-    //         return;
-    //       }
-    //       this.props.onSubmit(username, email, password);
-    //     }
-    //   }
 
 
     isValidForm = () => {
@@ -72,14 +82,42 @@ class Register extends React.Component {
         ) {
             return false;
         }
+
+
+
+
         return true;
     }
+
+
+    // validateForm = () => {
+
+    // }
+
 
     render() {
 
         return (
             <Container text className="register-page">
-                <Form onSubmit={this.submitForm} size="large">
+
+                {this.showValidationErrors &&
+                    <div className="ui error message">
+                        <ul className="list">
+
+                            {this.passwordsNotMatch &&
+                                <li>Passwords should match</li>
+                            }
+                            {this.invalidEmail &&
+                                <li>Email not valid</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+
+
+                <Form
+                    onSubmit={this.submitForm} size="large">
 
                     <Form.Field>
                         <Input
@@ -87,19 +125,25 @@ class Register extends React.Component {
                             onChange={e => this.username = e.target.value}
                             fluid icon='user' iconPosition='left' placeholder='Username' />
                     </Form.Field>
-                    <Form.Field>
+                    <Form.Field
+                        className={this.invalidEmail ? "error" : null}
+                    >
                         <Input
                             value={this.email}
                             onChange={e => this.email = e.target.value}
                             fluid icon='mail' iconPosition='left' placeholder='E-mail address' />
                     </Form.Field>
-                    <Form.Field>
+                    <Form.Field
+                        className={this.passwordsNotMatch ? "error" : null}
+                    >
                         <Input
                             value={this.password1}
                             onChange={e => this.password1 = e.target.value}
                             fluid icon='lock' iconPosition='left' placeholder='Password' type="password" />
                     </Form.Field>
-                    <Form.Field>
+                    <Form.Field
+                        className={this.passwordsNotMatch ? "error" : null}
+                    >
                         <Input
                             value={this.password2}
                             onChange={e => this.password2 = e.target.value}
@@ -112,32 +156,6 @@ class Register extends React.Component {
                 </Form>
             </Container>
         );
-
-        /*const email = this.props.email;
-        const password = this.props.password;
-        const username = this.props.username;
-    
-        return (
-            <Container text>
-                <h1>Register</h1>
-                <Form onSubmit={this.submitForm(username, email, password)}>
-                    <Form.Input label='Username' placeholder='Username'
-                        value={this.props.username}
-                        onChange={this.changeUsername} />
-                    <Form.Input label='Email' placeholder='Email'
-                        value={this.props.email}
-                        onChange={this.changeEmail}
-                        type="email" />
-                    <Form.Input label='Password' placeholder='Password'
-                        type="password"
-                        value={this.props.password}
-                        onChange={this.changePassword} />
-                    <Form.Button
-                        disabled={!this.isValidForm()}
-                    >Submit</Form.Button>
-                </Form>
-            </Container>
-        );*/
     }
 }
 
