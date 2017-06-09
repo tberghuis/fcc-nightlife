@@ -1,17 +1,27 @@
 import React from 'react';
 import agent from '../agent';
 import { connect } from 'react-redux';
+// import { Container, Input, Form } from 'semantic-ui-react';
 import { Container, Input, Button, Form } from 'semantic-ui-react';
 
 import { observer } from 'mobx-react';
 import { extendObservable } from 'mobx';
 import isEmail from 'validator/lib/isEmail';
 
-import '../scss/register-page.css'
-
 import {
     REGISTER
 } from '../constants/actionTypes';
+
+import '../scss/register-page.css'
+
+// this was a test:
+// import styled from 'styled-components';
+// var Button = require('semantic-ui-react').Button;
+// Button = styled(Button)`
+// 	font-size: 1.5em;
+// 	text-align: center;
+// 	color: palevioletred !important;
+// `;
 
 const mapStateToProps = state => ({});
 
@@ -88,12 +98,6 @@ class Register extends React.Component {
 
         return true;
     }
-
-
-    // validateForm = () => {
-
-    // }
-
 
     render() {
 
