@@ -8,6 +8,7 @@ import App from './App';
 import Main from './components/Main';
 import SingleClub from './components/SingleClub';
 import Register from './components/Register';
+import Login from './components/Login';
 import registerServiceWorker from './registerServiceWorker';
 import store from './store';
 import './scss/index.css';
@@ -24,6 +25,7 @@ ReactDOM.render(
           <IndexRoute component={Main} />
           <Route path="/club/:yelpId" component={SingleClub} />
           <Route path="register" component={Register} />
+          <Route path="login" component={Login} />
           {/*<Route path="login" component={Login} />
 
           <Route path="createpoll" component={CreatePoll} onEnter={requireAuth} />
