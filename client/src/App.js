@@ -9,6 +9,7 @@ class App extends Component {
         <div>
           <Header />
         </div>
+        {/*<div className="ui middle aligned center aligned grid">*/}
         <div>
           {this.props.children}
         </div>
