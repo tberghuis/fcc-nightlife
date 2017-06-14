@@ -1,9 +1,10 @@
 
 const routes = require('express').Router();
 const yelp = require('./yelp');
-// const cars = require('./cars');
+const auth = require('./auth');
 
 routes.use('/yelp', yelp);
+routes.use('/auth', auth);
 // routes.use('/cars', cars);
 
 // routes.get('/', (req, res) => {

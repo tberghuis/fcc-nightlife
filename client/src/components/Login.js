@@ -2,10 +2,9 @@ import React from 'react';
 
 
 import { Field, reduxForm } from 'redux-form';
+import agent from '../agent';
 
-
-
-// import agent from '../agent';
+// using dispatch from reduxForm
 // import { connect } from 'react-redux';
 // import { Container, Input, Button, Form } from 'semantic-ui-react';
 
@@ -15,8 +14,20 @@ class Login extends React.Component {
 
 
     // bad naming
-    xhrPostLogin = () => {
-        console.log('test');
+    xhrPostLogin = (values, dispatch) => {
+        console.log(values);
+        // console.log(anythingelse);
+
+        // dispatch({
+        //     type: 'TEST',
+        //     payload: 'test'
+        // });
+
+        // return a promise
+        return agent.requests.post('/auth/login', {
+            email: values.email,
+            password: values.password
+        });
 
     }
 
@@ -32,6 +43,17 @@ class Login extends React.Component {
                             component="input"
                             type="email"
                             placeholder="Email"
+                        />
+                    </div>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <div>
+                        <Field
+                            name="password"
+                            component="input"
+                            type="password"
+                            placeholder="Password"
                         />
                     </div>
                 </div>
