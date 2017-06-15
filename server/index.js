@@ -13,6 +13,7 @@ const LocalStrategy = require('passport-local').Strategy;
 // and folder structure import export convention etc
 const routes = require('./routes');
 
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
 
 app.use(require('cors')());
@@ -21,10 +22,18 @@ app.use(require('cors')());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+var User = require('./models/user');
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 // require('./config/passport');
@@ -34,6 +43,29 @@ app.use(require('express-session')({
 
 // passport is singleton???
 app.use('/', routes);
+
+
+
+app.use(function (req, res, next) {
+  console.log('404');
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+app.use(function (err, req, res, next) {
+  console.log(err.stack);
+  res.status(err.status || 500);
+  res.json({
+    'errors': {
+      message: err.message,
+      error: err
+    }
+  });
+});
+
+
+
 
 //Server Setup(Express)
 // app.listen(process.env.SERVER_PORT, '0.0.0.0', () => {

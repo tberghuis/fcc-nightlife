@@ -1,5 +1,6 @@
 import React from 'react';
-import agent from '../agent';
+// import agent from '../agent';
+import axios from 'axios';
 import { connect } from 'react-redux';
 // import { Container, Input, Form } from 'semantic-ui-react';
 import { Container, Input, Button, Form } from 'semantic-ui-react';
@@ -13,6 +14,8 @@ import {
 } from '../constants/actionTypes';
 
 import '../scss/register-page.css'
+
+const API_ROOT = process.env.REACT_APP_API_BASE_URL;
 
 // this was a test:
 // import styled from 'styled-components';
@@ -42,7 +45,8 @@ class Register extends React.Component {
             password2: '',
             showValidationErrors: false,
             passwordsNotMatch: false,
-            invalidEmail: false
+            invalidEmail: false,
+            errorResponse: null
         });
 
         //debugging
@@ -79,6 +83,29 @@ class Register extends React.Component {
         // post /register
 
         // const payload = agent.requests.post('/')
+
+
+
+
+        axios.post(API_ROOT + '/auth/register', {
+            username: this.username,
+            email: this.email,
+            password: this.password1
+        }, { headers: { 'Accept': 'application/json' } })
+            .then((data) => {
+                console.log('then', data);
+                // dispatch LOGIN, save email and username in redux
+
+                // stuff localstorage
+
+
+            })
+            .catch((error) => {
+                // console.log('catch', error);
+                // console.log('catch', error.response);
+                this.errorResponse = error.response.data.errors.message;
+                // console.log('catch',data.);
+            });
     }
 
 
@@ -158,6 +185,7 @@ class Register extends React.Component {
                         fluid color="teal" size="large">Register</Button>
 
                 </Form>
+                {this.errorResponse && <div>{this.errorResponse}</div>}
             </Container>
         );
     }
