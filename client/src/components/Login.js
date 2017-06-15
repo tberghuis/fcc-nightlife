@@ -9,36 +9,16 @@ import agent from '../agent';
 import { connect } from 'react-redux';
 
 // using dispatch from reduxForm
-// import { connect } from 'react-redux';
+
+// using className instead
 // import { Container, Input, Button, Form } from 'semantic-ui-react';
 
+// TODO
 // import isEmail from 'validator/lib/isEmail';
-
 
 const required = value => (value ? undefined : 'Required')
 
-// const validate = values => {
-//     const errors = {}
-
-//     if (!values.email) {
-//         errors.email = 'Required'
-//     }
-
-//     // if (!values.email || values.email.trim() === '') {
-//     //     errors.email = 'Required'
-//     // }
-
-//     return errors
-// }
-
-
-
-
-
-
-
 class Login extends React.Component {
-
 
     // bad naming
     xhrPostLogin = (values, dispatch) => {
@@ -87,8 +67,6 @@ class Login extends React.Component {
 
     render() {
         const { handleSubmit, pristine, submitting } = this.props;
-        // console.log(this.props.syncErrors);
-        // console.log(this.props.fields);
         return (
             <div style={{ maxWidth: '450px', margin: '30px auto' }}>
                 <form className="ui large form" onSubmit={handleSubmit(this.xhrPostLogin)}>
