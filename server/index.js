@@ -3,8 +3,10 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 
 // i should probably improve naming of this
@@ -17,6 +19,13 @@ app.use(require('cors')());
 
 
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+
 
 // require('./config/passport');
 // app.use(passport.initialize());
