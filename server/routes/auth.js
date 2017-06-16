@@ -44,7 +44,11 @@ router.post('/login', function (req, res, next) {
 
     console.log(req.body);
 
-    res.json({ hello: "hello" });
+    // res.json({ hello: "hello" });
+
+    var err = new Error('Not Found');
+    err.status = 400;
+    next(err);
 });
 
 
