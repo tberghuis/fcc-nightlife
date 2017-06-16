@@ -1,5 +1,4 @@
 import React from 'react';
-// import agent from '../agent';
 import axios from 'axios';
 import { connect } from 'react-redux';
 // import { Container, Input, Form } from 'semantic-ui-react';
@@ -14,8 +13,6 @@ import {
 } from '../constants/actionTypes';
 
 import '../scss/register-page.css'
-
-const API_ROOT = process.env.REACT_APP_API_BASE_URL;
 
 // this was a test:
 // import styled from 'styled-components';
@@ -87,7 +84,7 @@ class Register extends React.Component {
 
 
 
-        axios.post(API_ROOT + '/auth/register', {
+        axios.post('/api/auth/register', {
             username: this.username,
             email: this.email,
             password: this.password1

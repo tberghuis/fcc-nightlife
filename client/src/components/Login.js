@@ -5,7 +5,7 @@ import React from 'react';
 // } from 'redux-form';
 
 import { Field, reduxForm } from 'redux-form';
-import agent from '../agent';
+import axios from 'axios';
 import { connect } from 'react-redux';
 
 // using dispatch from reduxForm
@@ -31,7 +31,7 @@ class Login extends React.Component {
         // });
 
         // return a promise
-        return agent.requests.post('/auth/login', {
+        return axios.post('/api/auth/login', {
             email: values.email,
             password: values.password
         });

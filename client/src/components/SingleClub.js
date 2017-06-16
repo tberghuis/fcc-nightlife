@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { List, Button, Container, Table, Dimmer, Segment, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import agent from '../agent';
+import axios from 'axios';
 import {
     SINGLECLUB_GET
 } from '../constants/actionTypes';
@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
     //     dispatch({ type: GET_POLL, payload });
     // }
     getSingleClubData: (yelpId) => {
-        const payload = agent.requests.get('/yelp/' + yelpId);
+        const payload = axios.get('/api/yelp/'+yelpId);
         dispatch({ type: SINGLECLUB_GET, payload });
     }
 });

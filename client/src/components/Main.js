@@ -4,7 +4,7 @@ import { Container, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import agent from '../agent';
+import axios from 'axios';
 import ClubListTable from './ClubListTable';
 import {
     YELP_SEARCH
@@ -33,9 +33,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+
+
+
     yelpSearch: searchText => dispatch({
         type: YELP_SEARCH,
-        payload: agent.Yelp.search(searchText)
+        payload: axios.post('/api/yelp',{searchText})
     })
 });
 
