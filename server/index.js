@@ -42,7 +42,7 @@ passport.deserializeUser(User.deserializeUser());
 //router(app, passport);
 
 // passport is singleton???
-app.use('/', routes);
+app.use('/api', routes);
 
 
 

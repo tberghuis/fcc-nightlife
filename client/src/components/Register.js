@@ -92,18 +92,30 @@ class Register extends React.Component {
             email: this.email,
             password: this.password1
         }, { headers: { 'Accept': 'application/json' } })
-            .then((data) => {
-                console.log('then', data);
+            .then((response) => {
+                console.log('then', response);
                 // dispatch LOGIN, save email and username in redux
 
                 // stuff localstorage
 
+                console.log(this.props.dispatch);
+
+                //return 
+                this.props.dispatch({ type: REGISTER, payload: response.data });
 
             })
             .catch((error) => {
-                // console.log('catch', error);
+
+                console.log('catch', JSON.stringify(error));
                 // console.log('catch', error.response);
-                this.errorResponse = error.response.data.errors.message;
+
+                //i don't understand why this needs to be true if
+                // if(){
+
+                // }
+                // this.errorResponse = error.response.data.errors.message;
+
+
                 // console.log('catch',data.);
             });
     }
@@ -192,3 +204,4 @@ class Register extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(observer(Register));
+//export default observer(connect(mapStateToProps, mapDispatchToProps)(Register));

@@ -1,4 +1,6 @@
-
+import {
+    REGISTER,
+} from '../constants/actionTypes';
 
 // do i even need this if using express session
 
@@ -13,11 +15,13 @@ export default (state = defaultState, action) => {
     switch (action.type) {
 
         // TODO ???
-        case 'TEST':
+        case REGISTER:
 
             console.log('action',action);
             return {
-
+                ...state,
+                email: action.payload.email,
+                username: action.payload.username
             };
 
 

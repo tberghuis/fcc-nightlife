@@ -1,6 +1,7 @@
 
 const router = require('express').Router({ mergeParams: true });
 const User = require('../models/user');
+const passport = require('passport');
 
 
 router.post('/register', function (req, res, next) {
@@ -14,9 +15,21 @@ router.post('/register', function (req, res, next) {
             return next(err);
         }
 
-        console.log('user registered!');
+        // https://stackoverflow.com/questions/36465196/passport-local-mongoose-authenticate-user-right-after-registration
+        passport.authenticate("local")(req, res, function () {
+            
+            res.json({ username: req.body.username, email: req.body.email });
+        });
 
-        res.json({ hello: "hello" });
+
+        // console.log('user registered!');
+
+        // res.json({ hello: "hello" });
+
+        // send back username + email, i dont' know why....
+        // just do it
+
+
     });
 });
 
