@@ -3,7 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 // import { Container, Input, Form } from 'semantic-ui-react';
 import { Container, Input, Button, Form } from 'semantic-ui-react';
-
+import { browserHistory } from 'react-router';
 import { observer } from 'mobx-react';
 import { extendObservable } from 'mobx';
 import isEmail from 'validator/lib/isEmail';
@@ -90,30 +90,23 @@ class Register extends React.Component {
             password: this.password1
         }, { headers: { 'Accept': 'application/json' } })
             .then((response) => {
-                console.log('then', response);
+                // console.log('then', response);
                 // dispatch LOGIN, save email and username in redux
 
                 // stuff localstorage
 
-                console.log(this.props.dispatch);
+                // console.log(this.props.dispatch);
 
                 //return 
                 this.props.dispatch({ type: REGISTER, payload: response.data });
+                browserHistory.push('/');
 
             })
             .catch((error) => {
 
                 console.log('catch', JSON.stringify(error));
-                // console.log('catch', error.response);
 
-                //i don't understand why this needs to be true if
-                // if(){
-
-                // }
-                // this.errorResponse = error.response.data.errors.message;
-
-
-                // console.log('catch',data.);
+                this.errorResponse = error.response.data.errors.message;
             });
     }
 

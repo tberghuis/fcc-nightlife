@@ -7,6 +7,11 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+
+import {
+    LOGIN,
+} from '../constants/actionTypes';
 
 // using dispatch from reduxForm
 
@@ -31,9 +36,19 @@ class Login extends React.Component {
         // });
 
         // return a promise
+        // then redirect to /
+        // catch dispatch LOGIN_ERROR
         return axios.post('/api/auth/login', {
             email: values.email,
             password: values.password
+        }).then((res) => {
+            // dispatch LOGIN {username email}
+            dispatch({ type: LOGIN, payload: res.data });
+            browserHistory.push('/');
+        }).catch((err) => {
+            console.log(err);
+            this.setState({errorMessage: 'TODO message from server'});
+
         });
 
     }
@@ -78,6 +93,7 @@ class Login extends React.Component {
                         component={this.renderFieldPassword} />
                     <button className="ui fluid large submit button" type="submit" disabled={pristine || submitting}>Submit</button>
                 </form>
+                {this.state && this.state.errorMessage && <div>{this.state.errorMessage}</div>}
             </div>
         );
     }

@@ -16,8 +16,8 @@ const routes = require('./routes');
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
 
+// Do I need if i am using proxy?
 app.use(require('cors')());
-
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -35,16 +35,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
-// require('./config/passport');
-// app.use(passport.initialize());
-// app.use(passport.session());
-//router(app, passport);
-
-// passport is singleton???
 app.use('/api', routes);
-
-
 
 app.use(function (req, res, next) {
   console.log('404');

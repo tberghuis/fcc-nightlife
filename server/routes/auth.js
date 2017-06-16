@@ -16,8 +16,9 @@ router.post('/register', function (req, res, next) {
         }
 
         // https://stackoverflow.com/questions/36465196/passport-local-mongoose-authenticate-user-right-after-registration
+        // i'm guessing that this sets session cookie
         passport.authenticate("local")(req, res, function () {
-            
+
             res.json({ username: req.body.username, email: req.body.email });
         });
 

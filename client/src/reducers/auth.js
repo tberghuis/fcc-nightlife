@@ -1,5 +1,6 @@
 import {
     REGISTER,
+    LOGIN,
 } from '../constants/actionTypes';
 
 // do i even need this if using express session
@@ -16,6 +17,7 @@ export default (state = defaultState, action) => {
 
         // TODO ???
         case REGISTER:
+        case LOGIN:
 
             console.log('action',action);
             return {
