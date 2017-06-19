@@ -10,7 +10,7 @@ const User = new Schema({
     email: String
 });
 
-// error messages are still wrong
+// BUG: error messages stating 'username' instead of 'email'
 User.plugin(passportLocalMongoose, {usernameField: 'email'});
 
 module.exports = mongoose.model('users', User);

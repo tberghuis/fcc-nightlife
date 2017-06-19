@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-
 // i should probably improve naming of this
 // and folder structure import export convention etc
 const routes = require('./routes');
@@ -55,9 +54,6 @@ app.use(function (err, req, res, next) {
     }
   });
 });
-
-
-
 
 //Server Setup(Express)
 // app.listen(process.env.SERVER_PORT, '0.0.0.0', () => {
