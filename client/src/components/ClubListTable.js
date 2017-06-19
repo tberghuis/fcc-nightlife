@@ -40,6 +40,8 @@ class ClubListTable extends React.Component {
             );
         }
 
+        console.log(this.props.data);
+
         if (this.props.data.length === 0) {
             return <div></div>;
 

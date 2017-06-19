@@ -26,7 +26,7 @@ export default (state = defaultState, action) => {
 
 
         case YELP_SEARCH:
-            // console.log(action);
+            console.log(action.payload);
 
             if (action.error) {
 
@@ -40,7 +40,7 @@ export default (state = defaultState, action) => {
 
             return {
                 ...state,
-                data: action.payload,
+                data: action.payload.data,
                 loading: false,
                 error: false
             };

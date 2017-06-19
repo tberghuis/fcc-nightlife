@@ -1,17 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Menu } from 'semantic-ui-react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import {
+    LOGOUT
+} from '../constants/actionTypes';
+const mapStateToProps = state => ({
+    loggedIn: state.auth.loggedIn
+});
+
+const mapDispatchToProps = dispatch => ({
+    dispatch
+});
+
 
 
 class Header extends React.Component {
 
 
-
+    onClickLogout = () => {
+        console.log('logout');
+        axios.get('/api/auth/logout')
+            .then((res) => {
+                this.props.dispatch({ type: LOGOUT });
+            });
+    }
 
 
     render() {
-        // let loggedIn = this.props.loggedIn;
-        let loggedIn = false;
+        let loggedIn = this.props.loggedIn;
+        // let loggedIn = false;
         return (
             <Menu>
                 <Menu.Item as={Link} to="/">
@@ -36,7 +55,7 @@ class Header extends React.Component {
                         </Menu.Item>
                     }
                     {loggedIn &&
-                        <Menu.Item onClick={this.props.onClickLogout}>
+                        <Menu.Item onClick={this.onClickLogout}>
                             Logout
                         </Menu.Item>
                     }
@@ -46,5 +65,5 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 

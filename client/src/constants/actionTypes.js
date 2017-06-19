@@ -1,5 +1,6 @@
 
 export const LOGIN = 'LOGIN';
+export const LOGIN_AUTO = 'LOGIN_AUTO';
 export const LOGOUT = 'LOGOUT';
 export const REGISTER = 'REGISTER';
 

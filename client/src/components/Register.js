@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-// import { Container, Input, Form } from 'semantic-ui-react';
 import { Container, Input, Button, Form } from 'semantic-ui-react';
 import { browserHistory } from 'react-router';
 import { observer } from 'mobx-react';
@@ -13,15 +12,6 @@ import {
 } from '../constants/actionTypes';
 
 import '../scss/register-page.css'
-
-// this was a test:
-// import styled from 'styled-components';
-// var Button = require('semantic-ui-react').Button;
-// Button = styled(Button)`
-// 	font-size: 1.5em;
-// 	text-align: center;
-// 	color: palevioletred !important;
-// `;
 
 const mapStateToProps = state => ({});
 
@@ -104,9 +94,10 @@ class Register extends React.Component {
             })
             .catch((error) => {
 
-                console.log('catch', JSON.stringify(error));
+                // console.log('catch', JSON.stringify(error));
 
-                this.errorResponse = error.response.data.errors.message;
+                // bug with passport-local-mongoose usernameField
+                this.errorResponse = error.response.data.errors.message.replace('username','email');
             });
     }
 

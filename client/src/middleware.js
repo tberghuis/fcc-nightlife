@@ -1,9 +1,9 @@
 import {
   ASYNC_START,
   ASYNC_END,
-  LOGIN,
-  LOGOUT,
-  REGISTER
+  // LOGIN,
+  // LOGOUT,
+  // REGISTER
 } from './constants/actionTypes';
 
 const promiseMiddleware = store => next => action => {

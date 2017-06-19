@@ -19,7 +19,15 @@ router.post('/register', function (req, res, next) {
         // i'm guessing that this sets session cookie
         passport.authenticate("local")(req, res, function () {
 
-            res.json({ username: req.body.username, email: req.body.email });
+
+
+            req.session.save((err) => {
+                if (err) {
+                    return next(err);
+                }
+                // res.redirect('/');
+                res.json({ username: req.body.username, email: req.body.email });
+            });
         });
 
 
@@ -34,12 +42,32 @@ router.post('/register', function (req, res, next) {
     });
 });
 
+router.get('/login', function (req, res, next) {
+
+    // TODO is this bad practice?
+    // i have no idea how to use passport properly
+    // following passport-local-mongoose example
+    if (req.user) {
+        res.json({ username: req.user.username, email: req.user.email });
+    }
+    // do i need else statement?
+    else {
+        let err = {};
+        err.status = 400;
+        return next(err);
+    }
+
+});
+
+router.post('/login', passport.authenticate('local'), function (req, res) {
+    res.json({ username: req.user.username, email: req.user.email });
+});
 
 
 // post /auth/login
 router.post('/login', function (req, res, next) {
 
-
+    console.log('post login');
     // ignore server side validation as i'm lazy
 
     console.log(req.body);
@@ -51,5 +79,15 @@ router.post('/login', function (req, res, next) {
     next(err);
 });
 
+router.get('/logout', (req, res, next) => {
+    req.logout();
+    req.session.save((err) => {
+        if (err) {
+            return next(err);
+        }
+        // TODO ???
+        res.json({ loggedOut: true });
+    });
+});
 
 module.exports = router;
