@@ -67,42 +67,20 @@ class Register extends React.Component {
             return;
         }
 
-        // post /register
-
-        // const payload = agent.requests.post('/')
-
-
-
-
         axios.post('/api/auth/register', {
             username: this.username,
             email: this.email,
             password: this.password1
         }, { headers: { 'Accept': 'application/json' } })
             .then((response) => {
-                // console.log('then', response);
-                // dispatch LOGIN, save email and username in redux
-
-                // stuff localstorage
-
-                // console.log(this.props.dispatch);
-
-                //return 
                 this.props.dispatch({ type: REGISTER, payload: response.data });
                 browserHistory.push('/');
-
             })
             .catch((error) => {
-
-                // console.log('catch', JSON.stringify(error));
-
                 // bug with passport-local-mongoose usernameField
                 this.errorResponse = error.response.data.errors.message.replace('username','email');
             });
     }
-
-
-
 
     isValidForm = () => {
         if (this.username.trim() === ''
@@ -112,18 +90,12 @@ class Register extends React.Component {
         ) {
             return false;
         }
-
-
-
-
         return true;
     }
 
     render() {
-
         return (
             <Container text className="register-page">
-
                 {this.showValidationErrors &&
                     <div className="ui error message">
                         <ul className="list">
@@ -137,9 +109,6 @@ class Register extends React.Component {
                         </ul>
                     </div>
                 }
-
-
-
                 <Form
                     onSubmit={this.submitForm} size="large">
 
@@ -176,7 +145,6 @@ class Register extends React.Component {
                     <Button
                         disabled={!this.isValidForm()}
                         fluid color="teal" size="large">Register</Button>
-
                 </Form>
                 {this.errorResponse && <div>{this.errorResponse}</div>}
             </Container>
@@ -185,4 +153,3 @@ class Register extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(observer(Register));
-//export default observer(connect(mapStateToProps, mapDispatchToProps)(Register));

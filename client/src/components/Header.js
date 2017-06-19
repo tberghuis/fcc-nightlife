@@ -6,18 +6,15 @@ import { connect } from 'react-redux';
 import {
     LOGOUT
 } from '../constants/actionTypes';
+
 const mapStateToProps = state => ({
     loggedIn: state.auth.loggedIn
 });
-
 const mapDispatchToProps = dispatch => ({
     dispatch
 });
 
-
-
 class Header extends React.Component {
-
 
     onClickLogout = () => {
         console.log('logout');
@@ -27,14 +24,11 @@ class Header extends React.Component {
             });
     }
 
-
     render() {
         let loggedIn = this.props.loggedIn;
-        // let loggedIn = false;
         return (
             <Menu>
                 <Menu.Item as={Link} to="/">
-
                     <img
                         style={{ height: '21px', width: 'auto' }}
                         src="/favicon/favicon-32x32.png" alt="" />
@@ -66,4 +60,3 @@ class Header extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
-

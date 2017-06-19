@@ -33,16 +33,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
-
-
     yelpSearch: searchText => dispatch({
         type: YELP_SEARCH,
         payload: axios.post('/api/yelp',{searchText})
     })
 });
-
-
 
 class Main extends React.Component {
 
@@ -80,5 +75,4 @@ class Main extends React.Component {
     }
 }
 
-// export default Main;
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

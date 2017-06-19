@@ -13,10 +13,6 @@ import registerServiceWorker from './registerServiceWorker';
 import store from './store';
 import './scss/index.css';
 
-// in console run _state()
-window._state = store.getState;
-
-
 ReactDOM.render(
   (
     <Provider store={store}>
@@ -26,12 +22,6 @@ ReactDOM.render(
           <Route path="/club/:yelpId" component={SingleClub} />
           <Route path="register" component={Register} />
           <Route path="login" component={Login} />
-          {/*<Route path="login" component={Login} />
-
-          <Route path="createpoll" component={CreatePoll} onEnter={requireAuth} />
-          <Route path="mypolls" component={MyPolls} onEnter={requireAuth} />
-          <Route path="/poll/:id" component={Poll} />
-          <Route path="/poll/:id/result" component={PollResult} />*/}
         </Route>
       </Router>
     </Provider>

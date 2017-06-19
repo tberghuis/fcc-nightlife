@@ -7,7 +7,6 @@ import { browserHistory } from 'react-router';
 
 import '../scss/club-list.css';
 
-// map state dispatch
 const mapStateToProps = state => ({
     data: state.clubList.data,
     loading: state.clubList.loading
@@ -17,36 +16,22 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-
 class ClubListTable extends React.Component {
 
-
     handleClickClub = (yelpId) => () => {
-        // console.log(yelpId);
-
-        // push.
         browserHistory.push('/club/' + yelpId);
-
     }
 
-
     render() {
-
-
         if (this.props.loading) {
-            // return <div>loading...</div>;
             return (
                     <Loader active/>
             );
         }
-
-        console.log(this.props.data);
-
         if (this.props.data.length === 0) {
             return <div></div>;
 
         }
-
         return (
             <Container className="club-list">
                 <Table unstackable singleLine selectable style={{ marginTop: '20px' }}>
@@ -81,7 +66,5 @@ class ClubListTable extends React.Component {
         );
     }
 }
-
-// export default ClubListTable;
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClubListTable);

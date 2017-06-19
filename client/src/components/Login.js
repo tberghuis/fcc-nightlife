@@ -28,13 +28,6 @@ class Login extends React.Component {
     // bad naming
     xhrPostLogin = (values, dispatch) => {
         console.log(values);
-        // console.log(anythingelse);
-
-        // dispatch({
-        //     type: 'TEST',
-        //     payload: 'test'
-        // });
-
         // return a promise
         // then redirect to /
         // catch dispatch LOGIN_ERROR
@@ -42,13 +35,11 @@ class Login extends React.Component {
             email: values.email,
             password: values.password
         }).then((res) => {
-            // dispatch LOGIN {username email}
             dispatch({ type: LOGIN, payload: res.data });
             browserHistory.push('/');
         }).catch((err) => {
             console.log(err);
             this.setState({errorMessage: 'TODO message from server'});
-
         });
 
     }
@@ -111,4 +102,3 @@ Login = reduxForm({
 })(Login);
 
 export default Login;
-
