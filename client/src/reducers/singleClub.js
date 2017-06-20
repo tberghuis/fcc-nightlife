@@ -15,6 +15,7 @@ export default (state = defaultState, action) => {
                 data: null
             };
         case SINGLECLUB_GET:
+            // console.log(action);
             if (action.error) {
                 return {
                     ...state,
@@ -23,7 +24,7 @@ export default (state = defaultState, action) => {
             }
             return {
                 ...state,
-                data: action.payload,
+                data: action.payload.data,
                 error: false
             };
         default:

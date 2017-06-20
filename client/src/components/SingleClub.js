@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { List, Button, Container, Table, Dimmer, Segment, Loader } from 'semantic-ui-react';
+import { Modal, List, Button, Container, Table, Dimmer, Segment, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import axios from 'axios';
@@ -11,21 +11,29 @@ import {
 import '../scss/single-club.css';
 
 const mapStateToProps = state => ({
-    data: state.singleClub.data
-});
-
-const mapDispatchToProps = dispatch => ({
-    getSingleClubData: (yelpId) => {
-        const payload = axios.get('/api/yelp/'+yelpId);
-        dispatch({ type: SINGLECLUB_GET, payload });
-    }
+    data: state.singleClub.data,
+    loggedIn: state.auth.loggedIn
 });
 
 class SingleClub extends React.Component {
 
     componentWillMount() {
-        this.props.getSingleClubData(this.props.params.yelpId);
+        // this.props.getSingleClubData(this.props.params.yelpId);
+        this.getSingleClubData();
     }
+
+    getSingleClubData = () => {
+        const payload = axios.get('/api/yelp/' + this.props.params.yelpId);
+        this.props.dispatch({ type: SINGLECLUB_GET, payload });
+    }
+
+    addUserReservationList = () => {
+        // if ! loggedin, popup please login/register first
+        // setState showPopup
+        // else post business id to server
+    }
+
+
 
     render() {
         if (!this.props.data) {
@@ -52,12 +60,18 @@ class SingleClub extends React.Component {
                     <List.Item>2</List.Item>
                     <List.Item>3</List.Item>
                 </List>
-
-                <Button>Add yourself to reservations</Button>
+                {this.props.loggedIn &&
+                    <Button onClick={this.addUserReservationList}>Add yourself to reservations</Button>
+                }
+                {!this.props.loggedIn &&
+                    <p>Please Register/Login to add yourself to reservation list.</p>
+                }
+                <br />
                 <img src={data.image_url} alt="" />
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleClub);
+//export default connect(mapStateToProps, mapDispatchToProps)(SingleClub);
+export default connect(mapStateToProps)(SingleClub);

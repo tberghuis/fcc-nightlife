@@ -74,7 +74,8 @@ class Register extends React.Component {
         }, { headers: { 'Accept': 'application/json' } })
             .then((response) => {
                 this.props.dispatch({ type: REGISTER, payload: response.data });
-                browserHistory.push('/');
+                browserHistory.goBack();
+                // browserHistory.push('/');
             })
             .catch((error) => {
                 // bug with passport-local-mongoose usernameField

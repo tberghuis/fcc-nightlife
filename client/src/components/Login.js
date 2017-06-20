@@ -36,7 +36,8 @@ class Login extends React.Component {
             password: values.password
         }).then((res) => {
             dispatch({ type: LOGIN, payload: res.data });
-            browserHistory.push('/');
+            // browserHistory.push('/');
+            browserHistory.goBack();
         }).catch((err) => {
             console.log(err);
             this.setState({errorMessage: 'TODO message from server'});
