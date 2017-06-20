@@ -5,7 +5,7 @@ const Club = require('../models/club'); //clubs??
 //const Club = mongoose.model('clubs');
 const User = require('../models/user');
 
-
+// this code is so ugly
 
 router.post('/', function (req, res, next) {
     console.log(req);
@@ -73,21 +73,38 @@ router.get('/:yelpId', function (req, res, next) {
         }
         console.log('club', club);
         // User.find();
+
+        var guests = club.guests.map(guest => mongoose.Types.ObjectId(guest));
+
         User.find({
             '_id': {
-                $in: club.guests.map(guest => mongoose.Types.ObjectId(guest))
+                $in: guests
             }
         }, function (err, users) {
             console.log('users', users);
             var usernames = users.map(user => user.username);
             console.log('usernames', usernames);
-            res.json({ usernames });
+            var canRemove = false;
+            if (req.user && club.guests.indexOf(req.user.id) > -1) {
+                console.log('req.user', req.user);
+                canRemove = true;
+            }
+            res.json({ usernames, canRemove });
         });
     });
 
 });
 
 
+
+// router.get('/:yelpId/canremove', function (req, res, next) {
+// //    console.log(req);
+//     if(!req.user){
+//         handleError(new Error('got to be logged in'));
+//     }
+//     console.log(req.user);
+
+// });
 
 module.exports = router;
 

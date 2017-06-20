@@ -13,29 +13,46 @@ import '../scss/single-club.css';
 
 const mapStateToProps = state => ({
     data: state.singleClub.data,
+    canRemove: state.singleClub.canRemove,
     reservationList: state.singleClub.reservationList,
     loggedIn: state.auth.loggedIn
 });
 
 class SingleClub extends React.Component {
 
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         canRemoveUserFromReservation: null
+    //     };
+    // }
+
+
+    // is this called when browserHistory.back after login?
     componentWillMount() {
         // this.props.getSingleClubData(this.props.params.yelpId);
         this.getSingleClubData();
         this.getReservationList();
     }
 
+
+
     getSingleClubData = () => {
         const payload = axios.get('/api/yelp/' + this.props.params.yelpId);
         this.props.dispatch({ type: SINGLECLUB_GET, payload });
     }
+
 
     getReservationList = () => {
         axios.get('/api/reservation/' + this.props.params.yelpId)
             .then((res) => {
                 console.log(res);
                 //dispatch
-                this.props.dispatch({ type: SINGLECLUB_GET_RESERVATIONS, usernames: res.data.usernames });
+                this.props.dispatch({
+                    type: SINGLECLUB_GET_RESERVATIONS,
+                    usernames: res.data.usernames,
+                    canRemove: res.data.canRemove
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -79,12 +96,15 @@ class SingleClub extends React.Component {
                 </h3>
 
                 <List>
-                    {this.props.reservationList.map((username)=>{
-                        return <List.Item>{username}</List.Item>;
+                    {this.props.reservationList.map((username,i) => {
+                        return <List.Item key={i}>{username}</List.Item>;
                     })}
                 </List>
-                {this.props.loggedIn &&
+                {!this.props.canRemove && this.props.loggedIn &&
                     <Button onClick={this.addUserReservationList}>Add yourself to reservations</Button>
+                }
+                {this.props.canRemove &&
+                    <Button onClick={this.removeUserReservationList}>Remove yourself from reservations</Button>
                 }
                 {!this.props.loggedIn &&
                     <p>Please Register/Login to add yourself to reservation list.</p>

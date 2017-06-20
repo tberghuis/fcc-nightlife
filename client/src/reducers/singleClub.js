@@ -6,7 +6,8 @@ import {
 
 const defaultState = {
     data: null,
-    reservationList: []
+    reservationList: [],
+    canRemove: false
 };
 
 export default (state = defaultState, action) => {
@@ -20,7 +21,8 @@ export default (state = defaultState, action) => {
         case SINGLECLUB_GET_RESERVATIONS:
             return {
                 ...state,
-                reservationList: action.usernames
+                reservationList: action.usernames,
+                canRemove: action.canRemove,
             };
 
         case SINGLECLUB_GET:
