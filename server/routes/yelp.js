@@ -38,7 +38,8 @@ router.post('/', function (req, res, next) {
                 return {
                     yelpId: b.id,
                     name: b.name,
-                    address: b.location.address1
+                    address: b.location.address1,
+                    noReservations: 10
                 };
             });
             // TODO populate NoReservations

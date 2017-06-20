@@ -50,7 +50,7 @@ class ClubListTable extends React.Component {
                                 <Table.Row key={club.yelpId}
                                     onClick={this.handleClickClub(club.yelpId)}
                                 >
-                                    <Table.Cell>1</Table.Cell>
+                                    <Table.Cell>{club.noReservations}</Table.Cell>
                                     <Table.Cell>
                                         {club.name}
                                     </Table.Cell>
