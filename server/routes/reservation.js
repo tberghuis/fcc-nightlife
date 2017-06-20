@@ -3,6 +3,8 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const Club = require('../models/club'); //clubs??
 //const Club = mongoose.model('clubs');
+const User = require('../models/user');
+
 
 
 router.post('/', function (req, res, next) {
@@ -46,7 +48,10 @@ router.post('/', function (req, res, next) {
             });
         }
         else {
-            handleError(new Error('somethings wrong'));
+            //handleError(new Error('somethings wrong'));
+
+            // probably already made a reservation
+            res.json({ ok: 'ok' });
         }
 
     });
@@ -58,6 +63,27 @@ router.post('/', function (req, res, next) {
 
 router.get('/:yelpId', function (req, res, next) {
     console.log(req);
+    // if(!req.params.yelpId){
+    //     handleError(new Error('wheres the param'));
+    // }
+    Club.findOne({ yelpId: req.params.yelpId }, function (err, club) {
+        if (err) {
+            console.log('err', err);
+            handleError(err);
+        }
+        console.log('club', club);
+        // User.find();
+        User.find({
+            '_id': {
+                $in: club.guests.map(guest => mongoose.Types.ObjectId(guest))
+            }
+        }, function (err, users) {
+            console.log('users', users);
+            var usernames = users.map(user => user.username);
+            console.log('usernames', usernames);
+            res.json({ usernames });
+        });
+    });
 
 });
 

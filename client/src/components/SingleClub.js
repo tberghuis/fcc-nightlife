@@ -34,6 +34,15 @@ class SingleClub extends React.Component {
         axios.post('/api/reservation', { yelpId: this.props.data.yelpId })
             .then((res) => {
                 console.log(res);
+
+                axios.get('/api/reservation/' + this.props.data.yelpId)
+                    .then((res) => {
+                        console.log(res);
+                        //dispatch
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             })
             .catch((err) => {
                 console.log(err);
