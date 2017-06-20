@@ -21,7 +21,7 @@ router.post('/', function (req, res, next) {
     Club.find({ yelpId: req.body.yelpId }, function (err, clubs) {
         if (err) {
             console.log('err', err);
-            handleError(err);
+            handleError(res, err);
         }
         // clubs is an array
 
@@ -35,20 +35,20 @@ router.post('/', function (req, res, next) {
                 guests: [req.user.id]
             });
             club.save(function (err) {
-                if (err) return handleError(err);
+                if (err) return handleError(res, err);
                 // saved!
                 res.json({ ok: 'ok' });
             });
         } else if (clubs[0].guests.indexOf(req.user.id) === -1) {
             clubs[0].guests.push(req.user.id);
             clubs[0].save(function (err) {
-                if (err) return handleError(err);
+                if (err) return handleError(res, err);
                 // saved!
                 res.json({ ok: 'ok' });
             });
         }
         else {
-            //handleError(new Error('somethings wrong'));
+            //handleError(res,new Error('somethings wrong'));
 
             // probably already made a reservation
             res.json({ ok: 'ok' });
@@ -64,15 +64,20 @@ router.post('/', function (req, res, next) {
 router.get('/:yelpId', function (req, res, next) {
     console.log(req);
     // if(!req.params.yelpId){
-    //     handleError(new Error('wheres the param'));
+    //     handleError(res,new Error('wheres the param'));
     // }
     Club.findOne({ yelpId: req.params.yelpId }, function (err, club) {
         if (err) {
             console.log('err', err);
-            handleError(err);
+            handleError(res, err);
         }
         console.log('club', club);
         // User.find();
+
+        if (!club) {
+            return handleError(res, new Error('club not exist in app'));
+        }
+
 
         var guests = club.guests.map(guest => mongoose.Types.ObjectId(guest));
 
@@ -97,19 +102,48 @@ router.get('/:yelpId', function (req, res, next) {
 
 
 
-// router.get('/:yelpId/canremove', function (req, res, next) {
-// //    console.log(req);
-//     if(!req.user){
-//         handleError(new Error('got to be logged in'));
-//     }
-//     console.log(req.user);
+router.get('/:yelpId/remove', function (req, res, next) {
+    //    console.log(req);
+    if (!req.user) {
+        handleError(res, new Error('got to be logged in'));
+    }
+    console.log(req.user);
 
-// });
+    Club.findOne({ yelpId: req.params.yelpId }, function (err, club) {
+        if (err) {
+            console.log('err', err);
+            handleError(res, err);
+        }
+        console.log('club', club);
+        // User.find();
+
+        // club.guests.indexOf(req.user.id)
+        console.log(club.guests.indexOf(req.user.id));
+        //club.guests = club.guests.splice(club.guests.indexOf(req.user.id),1);
+        club.guests.splice(club.guests.indexOf(req.user.id), 1);
+        club.markModified('guests');
+        console.log('club', club);
+        club.save(function (err) {
+            if (err) return handleError(res, err);
+            // saved!
+            res.json({ ok: 'ok' });
+        });
+
+
+    });
+
+
+});
 
 module.exports = router;
 
 //TODO send json from here
-function handleError(err, status, message) {
+function handleError(res, err, status, message) {
     err.status = 400;
-    return next(err);
+    res.json({
+        'errors': {
+            message: err.message,
+            error: err
+        }
+    });
 }

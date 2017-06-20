@@ -21,7 +21,7 @@ export default (state = defaultState, action) => {
         case SINGLECLUB_GET_RESERVATIONS:
             return {
                 ...state,
-                reservationList: action.usernames,
+                reservationList: action.usernames? action.usernames:[],
                 canRemove: action.canRemove,
             };
 

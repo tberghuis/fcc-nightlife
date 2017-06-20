@@ -73,7 +73,17 @@ class SingleClub extends React.Component {
             });
     }
 
-
+    removeUserReservationList = () => {
+        axios.get('/api/reservation/' + this.props.params.yelpId + '/remove')
+            .then((res) => {
+                console.log(res);
+                this.getReservationList();
+                //dispatch
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     render() {
         if (!this.props.data) {
@@ -96,7 +106,7 @@ class SingleClub extends React.Component {
                 </h3>
 
                 <List>
-                    {this.props.reservationList.map((username,i) => {
+                    {this.props.reservationList.map((username, i) => {
                         return <List.Item key={i}>{username}</List.Item>;
                     })}
                 </List>
