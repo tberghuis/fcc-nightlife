@@ -1,5 +1,6 @@
 const yelp = require('yelp-fusion');
 const router = require('express').Router({ mergeParams: true });
+const Club = require('../models/club');
 
 router.get('/:yelpId', function (req, res, next) {
     // console.log(req.params.yelpId);
@@ -33,15 +34,18 @@ router.post('/', function (req, res, next) {
             category_filter: 'bars',
             sort: 1
         }).then(response => {
+
             // console.log(response.jsonBody);
             let businesses = response.jsonBody.businesses.map((b) => {
+
                 return {
                     yelpId: b.id,
                     name: b.name,
                     address: b.location.address1,
-                    noReservations: 10
+                    noReservations: null
                 };
             });
+
             // TODO populate NoReservations
             return res.json(businesses);
 

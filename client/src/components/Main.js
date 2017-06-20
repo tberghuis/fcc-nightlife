@@ -32,12 +32,12 @@ const mapStateToProps = state => ({
     searchError: state.clubList.error
 });
 
-const mapDispatchToProps = dispatch => ({
-    yelpSearch: searchText => dispatch({
-        type: YELP_SEARCH,
-        payload: axios.post('/api/yelp',{searchText})
-    })
-});
+// const mapDispatchToProps = dispatch => ({
+//     yelpSearch: searchText => dispatch({
+//         type: YELP_SEARCH,
+//         payload: axios.post('/api/yelp',{searchText})
+//     })
+// });
 
 class Main extends React.Component {
 
@@ -48,12 +48,27 @@ class Main extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         // console.log('input.value', this.input.value);
-        this.props.yelpSearch(this.input.value);
+        this.yelpSearch(this.input.value);
     }
+
+    // wow this is really ugly
+    yelpSearch = (searchText) => {
+        return this.props.dispatch({
+            type: YELP_SEARCH,
+            payload: axios.post('/api/yelp', { searchText })
+                .then((res) => {
+                    // axios post [yelpId], get back [noRes]
+                    // dispatch
+                    return res;
+                })
+        });
+
+    }
+
 
     render() {
         return (
-            <div style={{marginBottom: '40px'}}>
+            <div style={{ marginBottom: '40px' }}>
                 <DivCentered text>
                     <Form onSubmit={this.handleSubmit}>
                         <h1>Welcome to the Nightlife Coordination App</h1>
@@ -67,7 +82,7 @@ class Main extends React.Component {
                     </Form>
                 </DivCentered>
                 {this.props.searchError &&
-                    <div style={{textAlign: 'center'}}>Error: check input and try searching again.</div>
+                    <div style={{ textAlign: 'center' }}>Error: check input and try searching again.</div>
                 }
                 <ClubListTable></ClubListTable>
             </div>
@@ -75,4 +90,4 @@ class Main extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps)(Main);
