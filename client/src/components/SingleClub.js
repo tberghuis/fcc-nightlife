@@ -28,9 +28,16 @@ class SingleClub extends React.Component {
     }
 
     addUserReservationList = () => {
-        // if ! loggedin, popup please login/register first
-        // setState showPopup
-        // else post business id to server
+
+        // console.log(this.props.data);
+        // post yelpId to server
+        axios.post('/api/reservation', { yelpId: this.props.data.yelpId })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
 

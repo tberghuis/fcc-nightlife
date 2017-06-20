@@ -4,5 +4,6 @@ const auth = require('./auth');
 
 routes.use('/yelp', yelp);
 routes.use('/auth', auth);
+routes.use('/reservation', require('./reservation'));
 
 module.exports = routes;

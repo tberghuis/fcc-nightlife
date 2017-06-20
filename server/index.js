@@ -30,11 +30,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var User = require('./models/user');
+require('./models/club');
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+
 app.use('/api', routes);
+
 
 app.use(function (req, res, next) {
   console.log('404');
