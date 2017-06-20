@@ -30,13 +30,17 @@ router.get('/login', function (req, res, next) {
     // following passport-local-mongoose example
     if (req.user) {
         res.json({ username: req.user.username, email: req.user.email });
+        // console.log('if');
     }
     // do i need else statement? TODO test
+    // i think so
     else {
-        let err = {};
+        // console.log('else');
+        var err = new Error('Session invalid');
         err.status = 400;
         return next(err);
     }
+    // console.log('after');
 
 });
 

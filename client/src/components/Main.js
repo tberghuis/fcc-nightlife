@@ -53,7 +53,7 @@ class Main extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{marginBottom: '40px'}}>
                 <DivCentered text>
                     <Form onSubmit={this.handleSubmit}>
                         <h1>Welcome to the Nightlife Coordination App</h1>

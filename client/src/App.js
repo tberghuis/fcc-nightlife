@@ -23,6 +23,8 @@ class App extends Component {
       axios.get('/api/auth/login')
         .then((res) => {
           this.props.dispatch({ type: LOGIN_AUTO, username: res.data.email, email: res.data.username });
+        }).catch((err) => {
+          console.log(err);
         });
     }
   }
