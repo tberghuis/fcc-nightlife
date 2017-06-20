@@ -5,13 +5,15 @@ import { connect } from 'react-redux';
 
 import axios from 'axios';
 import {
-    SINGLECLUB_GET
+    SINGLECLUB_GET,
+    SINGLECLUB_GET_RESERVATIONS
 } from '../constants/actionTypes';
 
 import '../scss/single-club.css';
 
 const mapStateToProps = state => ({
     data: state.singleClub.data,
+    reservationList: state.singleClub.reservationList,
     loggedIn: state.auth.loggedIn
 });
 
@@ -20,11 +22,24 @@ class SingleClub extends React.Component {
     componentWillMount() {
         // this.props.getSingleClubData(this.props.params.yelpId);
         this.getSingleClubData();
+        this.getReservationList();
     }
 
     getSingleClubData = () => {
         const payload = axios.get('/api/yelp/' + this.props.params.yelpId);
         this.props.dispatch({ type: SINGLECLUB_GET, payload });
+    }
+
+    getReservationList = () => {
+        axios.get('/api/reservation/' + this.props.params.yelpId)
+            .then((res) => {
+                console.log(res);
+                //dispatch
+                this.props.dispatch({ type: SINGLECLUB_GET_RESERVATIONS, usernames: res.data.usernames });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     addUserReservationList = () => {
@@ -34,15 +49,7 @@ class SingleClub extends React.Component {
         axios.post('/api/reservation', { yelpId: this.props.data.yelpId })
             .then((res) => {
                 console.log(res);
-
-                axios.get('/api/reservation/' + this.props.data.yelpId)
-                    .then((res) => {
-                        console.log(res);
-                        //dispatch
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                this.getReservationList();
             })
             .catch((err) => {
                 console.log(err);
@@ -72,9 +79,9 @@ class SingleClub extends React.Component {
                 </h3>
 
                 <List>
-                    <List.Item>1</List.Item>
-                    <List.Item>2</List.Item>
-                    <List.Item>3</List.Item>
+                    {this.props.reservationList.map((username)=>{
+                        return <List.Item>{username}</List.Item>;
+                    })}
                 </List>
                 {this.props.loggedIn &&
                     <Button onClick={this.addUserReservationList}>Add yourself to reservations</Button>
