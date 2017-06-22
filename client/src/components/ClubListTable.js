@@ -1,7 +1,5 @@
 import React from "react";
-// import { Link } from 'react-router';
-// import { Menu } from 'semantic-ui-react';
-import { Container, Table, Dimmer, Loader } from "semantic-ui-react";
+import { Container, Table, Loader } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { browserHistory } from "react-router";
 
