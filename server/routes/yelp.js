@@ -2,15 +2,7 @@ const yelp = require("yelp-fusion");
 const router = require("express").Router({ mergeParams: true });
 const Club = require("../models/club");
 
-router.get("/test", function(req, res, next) {
-  res.json({ test: "test" });
-});
-
 router.get("/:yelpId", function(req, res, next) {
-  //   console.log("get yelpId");
-
-  // console.log(req.params.yelpId);
-
   // must be better way to cache/reuse the token, meh
   // repeating myself for the moment
   yelp
@@ -39,8 +31,6 @@ router.get("/:yelpId", function(req, res, next) {
 });
 
 router.post("/", function(req, res, next) {
-  // console.log(req.body.searchText);
-  // now to use yelp fusion
   yelp
     .accessToken(
       process.env.YELPFUSION_CLIENTID,
@@ -55,15 +45,7 @@ router.post("/", function(req, res, next) {
           category_filter: "bars",
           sort: 1
         })
-        .then(response => {
-          // do some then chaining
-          // TODO Promise.all map getting noReservations
-          // https://stackoverflow.com/questions/33438158/best-way-to-call-an-async-function-within-map
-
-          // in future look up sending cursor to client
-          // apollo is probably the future
-
-          // console.log(response.jsonBody);
+        .then(async response => {
           let businesses = response.jsonBody.businesses.map(b => {
             return {
               yelpId: b.id,
@@ -75,13 +57,23 @@ router.post("/", function(req, res, next) {
 
           let promises = businesses.map(b => {
             // get noReservations
-            Club.findOne();
+            return (
+              Club.findOne({ yelpId: b.yelpId })
+                // club could be null
+                .then(club => {
+                  if (!club) return 0;
+                  return club.guests.length;
+                })
+              // should probably catch here
+              // learn about error handling best practices
+            );
           });
-
-          // let
-          // man this async is killing me
-
-          // TODO populate NoReservations
+          noReservations = await Promise.all(promises);
+          // console.log(noReservations);
+          businesses = businesses.map((b, i) => {
+            b.noReservations = noReservations[i];
+            return b;
+          });
           return res.json(businesses);
         })
         .catch(errorHandler(res));
